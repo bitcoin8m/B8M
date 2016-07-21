@@ -1,0 +1,5 @@
+Building Bitcoin8m
+
+See doc/build-*.md for instructions on building bitcoin8md,
+the intended-for-services, no-graphical-interface, reference
+implementation of Bitcoin8m.

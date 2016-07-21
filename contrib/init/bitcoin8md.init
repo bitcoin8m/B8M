@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+#  bitcoin8md The bitcoin8m core server.
+#
+#
+# chkconfig: 345 80 20
+# description: bitcoin8md
+# processname: bitcoin8md
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/bitcoin8md, see below
+if [ -f /etc/sysconfig/bitcoin8md ]; then
+        . /etc/sysconfig/bitcoin8md
+fi
+
+RETVAL=0
+
+prog=bitcoin8md
+# you can override the lockfile via BITCOIN8MD_LOCKFILE in /etc/sysconfig/bitcoin8md
+lockfile=${BITCOIN8MD_LOCKFILE-/var/lock/subsys/bitcoin8md}
+
+# bitcoin8md defaults to /usr/bin/bitcoin8md, override with BITCOIN8MD_BIN
+bitcoin8md=${BITCOIN8MD_BIN-/usr/bin/bitcoin8md}
+
+# bitcoin8md opts default to -disablewallet, override with BITCOIN8MD_OPTS
+bitcoin8md_opts=${BITCOIN8MD_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $bitcoin8md $bitcoin8md_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

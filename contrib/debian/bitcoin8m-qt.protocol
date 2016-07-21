@@ -1,0 +1,11 @@
+[Protocol]
+exec=bitcoin8m-qt '%u'
+protocol=bitcoin8m
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

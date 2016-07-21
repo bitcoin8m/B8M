@@ -1,0 +1,67 @@
+Source: bitcoin8m
+Section: utils
+Priority: optional
+Maintainer: Jonas Smedegaard <dr@jones.dk>
+Uploaders: Micah Anderson <micah@debian.org>
+Build-Depends: debhelper,
+ devscripts,
+ automake,
+ libtool,
+ bash-completion,
+ libboost-system-dev (>> 1.35) | libboost-system1.35-dev,
+ libdb4.8++-dev,
+ libssl-dev,
+ pkg-config,
+ libminiupnpc8-dev | libminiupnpc-dev (>> 1.6),
+ libboost-filesystem-dev (>> 1.35) | libboost-filesystem1.35-dev,
+ libboost-program-options-dev (>> 1.35) | libboost-program-options1.35-dev,
+ libboost-thread-dev (>> 1.35) | libboost-thread1.35-dev,
+ libboost-test-dev (>> 1.35) | libboost-test1.35-dev,
+ qt4-qmake,
+ libqt4-dev,
+ libqrencode-dev,
+ libprotobuf-dev, protobuf-compiler,
+ python
+Standards-Version: 3.9.2
+Homepage: https://bitcoin8mcore.org/
+Vcs-Git: git://github.com/bitcoin8m/bitcoin8m.git
+Vcs-Browser: https://github.com/bitcoin8m/bitcoin8m
+
+Package: bitcoin8md
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: peer-to-peer network based digital currency - daemon
+ Bitcoin8m is an experimental new digital currency that enables instant
+ payments to anyone, anywhere in the world. Bitcoin8m uses peer-to-peer
+ technology to operate with no central authority: managing transactions
+ and issuing money are carried out collectively by the network. Bitcoin8m Core
+ is the name of the open source software which enables the use of this currency.
+ .
+ This package provides the daemon, bitcoin8md, and the CLI tool
+ bitcoin8m-cli to interact with the daemon.
+
+Package: bitcoin8m-qt
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: peer-to-peer network based digital currency - Qt GUI
+ Bitcoin8m is an experimental new digital currency that enables instant
+ payments to anyone, anywhere in the world. Bitcoin8m uses peer-to-peer
+ technology to operate with no central authority: managing transactions
+ and issuing money are carried out collectively by the network. Bitcoin8m Core
+ is the name of the open source software which enables the use of this currency.
+ .
+ This package provides Bitcoin8m-Qt, a GUI for Bitcoin8m based on Qt.
+
+Package: bitcoin8m-tx
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: peer-to-peer digital currency - standalone transaction tool
+ Bitcoin8m is an experimental new digital currency that enables instant
+ payments to anyone, anywhere in the world. Bitcoin8m uses peer-to-peer
+ technology to operate with no central authority: managing transactions
+ and issuing money are carried out collectively by the network. Bitcoin8m Core
+ is the name of the open source software which enables the use of this currency.
+ .
+ This package provides bitcoin8m-tx, a command-line transaction creation
+ tool which can be used without a bitcoin8m daemon.  Some means of
+ exchanging minimal transaction data with peers is still required.

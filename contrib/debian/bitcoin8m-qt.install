@@ -1,0 +1,6 @@
+usr/local/bin/bitcoin8m-qt usr/bin
+share/pixmaps/bitcoin8m32.xpm usr/share/pixmaps
+share/pixmaps/bitcoin8m16.xpm usr/share/pixmaps
+share/pixmaps/bitcoin8m128.png usr/share/pixmaps
+debian/bitcoin8m-qt.desktop usr/share/applications
+debian/bitcoin8m-qt.protocol usr/share/kde4/services/

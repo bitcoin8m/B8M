@@ -1,0 +1,33 @@
+# /etc/conf.d/bitcoin8md: config file for /etc/init.d/bitcoin8md
+
+# Config file location
+#BITCOIN8MD_CONFIGFILE="/etc/bitcoin8m/bitcoin8m.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITCOIN8MD_USER)
+#BITCOIN8MD_PIDDIR="/var/run/bitcoin8md"
+
+# What filename to give the pidfile
+#BITCOIN8MD_PIDFILE="${BITCOIN8MD_PIDDIR}/bitcoin8md.pid"
+
+# Where to write bitcoin8md data (be mindful that the blockchain is large)
+#BITCOIN8MD_DATADIR="/var/lib/bitcoin8md"
+
+# User and group to own bitcoin8md process
+#BITCOIN8MD_USER="bitcoin8m"
+#BITCOIN8MD_GROUP="bitcoin8m"
+
+# Path to bitcoin8md executable
+#BITCOIN8MD_BIN="/usr/bin/bitcoin8md"
+
+# Nice value to run bitcoin8md under
+#BITCOIN8MD_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BITCOIN8MD_OPTS="-disablewallet"
+
+# The timeout in seconds OpenRC will wait for bitcoin8md to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+BITCOIN8MD_SIGTERM_TIMEOUT=60

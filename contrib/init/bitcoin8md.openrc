@@ -1,0 +1,92 @@
+#!/sbin/runscript
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/bitcoin8m/.bitcoin8m" ]; then
+	BITCOIN8MD_DEFAULT_DATADIR="/var/lib/bitcoin8m/.bitcoin8m"
+else
+	BITCOIN8MD_DEFAULT_DATADIR="/var/lib/bitcoin8md"
+fi
+
+BITCOIN8MD_CONFIGFILE=${BITCOIN8MD_CONFIGFILE:-/etc/bitcoin8m/bitcoin8m.conf}
+BITCOIN8MD_PIDDIR=${BITCOIN8MD_PIDDIR:-/var/run/bitcoin8md}
+BITCOIN8MD_PIDFILE=${BITCOIN8MD_PIDFILE:-${BITCOIN8MD_PIDDIR}/bitcoin8md.pid}
+BITCOIN8MD_DATADIR=${BITCOIN8MD_DATADIR:-${BITCOIN8MD_DEFAULT_DATADIR}}
+BITCOIN8MD_USER=${BITCOIN8MD_USER:-${BITCOIN8M_USER:-bitcoin8m}}
+BITCOIN8MD_GROUP=${BITCOIN8MD_GROUP:-bitcoin8m}
+BITCOIN8MD_BIN=${BITCOIN8MD_BIN:-/usr/bin/bitcoin8md}
+BITCOIN8MD_NICE=${BITCOIN8MD_NICE:-${NICELEVEL:-0}}
+BITCOIN8MD_OPTS="${BITCOIN8MD_OPTS:-${BITCOIN8M_OPTS}}"
+
+name="Bitcoin8m Core Daemon"
+description="Bitcoin8m cryptocurrency P2P network daemon"
+
+command="/usr/bin/bitcoin8md"
+command_args="-pid=\"${BITCOIN8MD_PIDFILE}\" \
+		-conf=\"${BITCOIN8MD_CONFIGFILE}\" \
+		-datadir=\"${BITCOIN8MD_DATADIR}\" \
+		-daemon \
+		${BITCOIN8MD_OPTS}"
+
+required_files="${BITCOIN8MD_CONFIGFILE}"
+start_stop_daemon_args="-u ${BITCOIN8MD_USER} \
+			-N ${BITCOIN8MD_NICE} -w 2000"
+pidfile="${BITCOIN8MD_PIDFILE}"
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${BITCOIN8MD_SIGTERM_TIMEOUT}"
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${BITCOIN8MD_USER}:${BITCOIN8MD_GROUP}" \
+	"${BITCOIN8MD_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${BITCOIN8MD_USER}:${BITCOIN8MD_GROUP}" \
+	"${BITCOIN8MD_PIDDIR}"
+
+	checkpath -f \
+	-o ${BITCOIN8MD_USER}:${BITCOIN8MD_GROUP} \
+	-m 0660 \
+	${BITCOIN8MD_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${BITCOIN8MD_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run bitcoin8md."
+		eerror "The setting must appear in ${BITCOIN8MD_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is also recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"Bitcoin8m Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

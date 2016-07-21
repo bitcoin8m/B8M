@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Bitcoin8m
+Comment=Bitcoin8m P2P Cryptocurrency
+Comment[fr]=Bitcoin8m, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Bitcoin8m, eşten eşe kriptografik sanal para birimi
+Exec=bitcoin8m-qt %u
+Terminal=false
+Type=Application
+Icon=bitcoin8m128
+MimeType=x-scheme-handler/bitcoin8m;
+Categories=Office;Finance;

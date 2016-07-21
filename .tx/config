@@ -1,0 +1,7 @@
+[main]
+host = https://www.transifex.com
+
+[bitcoin8m.qt-translation-012x]
+file_filter = src/qt/locale/bitcoin8m_<lang>.ts
+source_file = src/qt/locale/bitcoin8m_en.ts
+source_lang = en
